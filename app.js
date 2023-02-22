@@ -9,10 +9,10 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/coucou', (req, res) => {
-  console.log('req :>> ', req);
-  res.send("Coucou c'est moi !");
+	console.log('req :>> ', req);
+	res.send('Coucou c\'est moi !');
 });
 
 app.listen(API_PORT, () => {
-  console.log(`Server is running on ${API_PORT}`);
+	console.log(`Server is running on ${API_PORT}`);
 });
