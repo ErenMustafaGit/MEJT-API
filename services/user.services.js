@@ -5,7 +5,15 @@ const getLogin = ((req, res) =>
     const username = String(req.params.username);
     const password = String(req.params.password);
 
-    userRepository.getUser()
+    const user = userRepository.getUser(username, password);
+
+    if(user.empty)
+    {
+        res.send('empty');
+    }
+    else
+    {
+        res.send('ok');
+    }
 });
 
-export default login;
