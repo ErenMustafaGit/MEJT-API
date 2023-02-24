@@ -7,7 +7,7 @@ const getLogin = ((req, res) =>
 
     const user = userRepository.getUser(username, password);
 
-    if(user.empty)
+    if(user === {})
     {
         res.send('empty');
     }

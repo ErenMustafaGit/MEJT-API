@@ -3,6 +3,9 @@ const router = express.Router();
 
 const login_service = require("../../services/user.services.js");
 
-router.post('/login/:username/:password', login_service.getLogin);
+router.post('/login', (req, res) => {
+    login_service.getLogin;
+    res.send('test');
+});
 
 module.exports = router;
