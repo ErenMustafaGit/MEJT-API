@@ -7,13 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// TO BE CHANGED, ONLY FOR EXAMPLES
-// https://www.prisma.io/docs/guides/database/prototyping-schema-db-push
-
 model User {
   id              Int              @id @default(autoincrement())
   email           String           @unique
-  name            String?
+  name            String
   Team            Team?
   FeedbackSession FeedbackSession?
   UserTeamMapping UserTeamMapping?
