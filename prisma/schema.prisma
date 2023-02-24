@@ -49,7 +49,7 @@ model FeedbackSession {
   tiredness Int
   stress    Int
   sensation String
-  injury    String
+  injury    String?
   date      DateTime
   userId    Int      @unique
   sessionId Int      @unique
