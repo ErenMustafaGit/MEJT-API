@@ -7,31 +7,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// TO BE CHANGED, ONLY FOR EXAMPLES
-// https://www.prisma.io/docs/guides/database/prototyping-schema-db-push
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id              Int              @id @default(autoincrement())
+  email           String           @unique
+  name            String
+  Team            Team?
+  FeedbackSession FeedbackSession?
+  UserTeamMapping UserTeamMapping?
+}
+
+model UserTeamMapping {
+  teamId Int  @unique
+  team   Team @relation(fields: [teamId], references: [id])
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Team {
+  id              Int              @id @default(autoincrement())
+  name            String
+  userId          Int              @unique
+  user            User             @relation(fields: [userId], references: [id])
+  Session         Session?
+  UserTeamMapping UserTeamMapping?
+}
+
+model Session {
+  id              Int              @id @default(autoincrement())
+  date            DateTime
+  place           String
+  description     String
+  name            String
+  teamId          Int              @unique
+  team            Team             @relation(fields: [teamId], references: [id])
+  FeedbackSession FeedbackSession?
+}
+
+model FeedbackSession {
+  id        Int      @id @default(autoincrement())
+  shape     Int
+  tiredness Int
+  stress    Int
+  sensation String
+  injury    String?
+  date      DateTime
+  userId    Int      @unique
+  sessionId Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  session   Session  @relation(fields: [sessionId], references: [id])
 }
