@@ -1,19 +1,23 @@
 const userRepository = require('../repository/user.repository');
 
-const getLogin = ((req, res) =>
+
+const getLogin = ((email, password) =>
 {
-    const username = String(req.params.username);
-    const password = String(req.params.password);
+    const user = userRepository.getUser(email, password);
 
-    const user = userRepository.getUser(username, password);
-
-    if(user === {})
+    if(user)
     {
-        res.send('empty');
+        return null;
     }
     else
     {
-        res.send('ok');
+        return user;
     }
 });
 
+
+
+module.exports = 
+{
+    getLogin
+}
