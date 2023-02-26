@@ -2,23 +2,32 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const getUser = async (email) => {
-	const user = await prisma.user.findUnique({
-		where: {
-			email,
-		},
-	});
-	return user;
+	try {
+		const user = await prisma.user.findUnique({
+			where: {
+				email,
+			},
+		});
+		return user;
+	} catch (err) {
+		return err;
+	}
 };
 
 const createUser = async (email, name, password) => {
-	const user = await prisma.user.create({
-		data: {
-			email,
-			name,
-			password,
-		},
-	});
-	return user;
+	try {
+		const user = await prisma.user.create({
+			data: {
+				email,
+				name,
+				password,
+			},
+		});
+		return user;
+	}
+	catch (err) {
+		return err;
+	};
 };
 
 module.exports = {

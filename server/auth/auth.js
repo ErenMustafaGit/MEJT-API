@@ -1,6 +1,8 @@
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
+
 const { getUser, createUser } = require('../repositories/user.repository');
 
 const isValidPassword = async (password1, password2) => {
@@ -15,13 +17,20 @@ passport.use(
 		{
 			usernameField: 'email',
 			passwordField: 'password',
-			passReqToCallback: true 
+			passReqToCallback: true,
 		},
 		async (req, email, password, done) => {
 			const passwordHashed = await bcrypt.hash(password, 10);
 			try {
 				const name = req.body.name;
-				const user = await createUser(email,name,passwordHashed);
+				const userInDB = await getUser(email);
+				if (!_.isEmpty(userInDB)) {
+					if (userInDB instanceof Error) {
+						throw userInDB;
+					}
+					throw new Error('User already exists');
+				}
+				const user = await createUser(email, name, passwordHashed);
 				return done(null, user);
 			} catch (error) {
 				done(error);
