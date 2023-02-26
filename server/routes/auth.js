@@ -17,7 +17,7 @@ router.post('/login', urlencodedParser, async (req, res, next) => {
 	passport.authenticate('login', async (err, user, info) => {
 		try {
 			if (err || !user) {
-				const error = new Error(info.message);
+				const error = new Error(info?.message);
   
 				return next(error);
 			}
