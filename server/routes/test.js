@@ -1,15 +1,11 @@
-
 const express = require('express');
-const auth = require('../middleware/auth');
 const router = express.Router();
+const passport = require('passport');
 
-router.get('/coucou',auth, (req, res) => {
-	try{
-		res.send('Coucou c\'est moi !');
-	}
-	catch{
-		res.send('Bonjour');
-	}
+require('../auth/auth');
+
+router.get('/test', passport.authenticate('jwt', { session: false }), (req, res) => {
+	res.send('Vous êtes bien connectés !');
 });
 
 module.exports = router;

@@ -1,7 +1,6 @@
-const testRoute = require('./routes/test');
 const authRoute = require('./routes/auth');
-const loginRoute = require('./routes/login');
+const testRoute = require('./routes/test');
 
-const allRoutes=[authRoute,testRoute, loginRoute];
+const allRoutes=[authRoute, testRoute];
 
 module.exports = allRoutes;
