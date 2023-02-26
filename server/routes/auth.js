@@ -9,7 +9,6 @@ require('../auth/auth');
 
 router.post('/signup', urlencodedParser, passport.authenticate('signup', { session: false }), async (req, res) => {
 	res.json({
-		message: 'Signup successful',
 		user: req.user,
 	});
 });
