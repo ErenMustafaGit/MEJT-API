@@ -7,44 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id              Int              @id @default(autoincrement())
-  email           String           @unique
-  name            String
-  password        String
-  Team            Team?
-  FeedbackSession FeedbackSession?
-  UserTeamMapping UserTeamMapping?
+model users {
+  id               Int               @id @default(autoincrement())
+  email            String            @unique
+  name             String
+  password         String
+  teams            teams?
+  feedbacksSession feedbacksSession?
+  usersTeamMapping usersTeamMapping?
 }
 
-model UserTeamMapping {
-  teamId Int  @unique
-  team   Team @relation(fields: [teamId], references: [id])
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
+model usersTeamMapping {
+  teamId Int   @unique
+  teams  teams @relation(fields: [teamId], references: [id])
+  userId Int   @unique
+  users  users @relation(fields: [userId], references: [id])
 }
 
-model Team {
-  id              Int              @id @default(autoincrement())
-  name            String
-  userId          Int              @unique
-  user            User             @relation(fields: [userId], references: [id])
-  Session         Session?
-  UserTeamMapping UserTeamMapping?
+model teams {
+  id               Int               @id @default(autoincrement())
+  name             String
+  userId           Int               @unique
+  users            users             @relation(fields: [userId], references: [id])
+  sessions         sessions?
+  usersTeamMapping usersTeamMapping?
 }
 
-model Session {
-  id              Int              @id @default(autoincrement())
-  date            DateTime
-  place           String
-  description     String
-  name            String
-  teamId          Int              @unique
-  team            Team             @relation(fields: [teamId], references: [id])
-  FeedbackSession FeedbackSession?
+model sessions {
+  id               Int               @id @default(autoincrement())
+  date             DateTime
+  place            String
+  description      String
+  name             String
+  teamId           Int               @unique
+  teams            teams             @relation(fields: [teamId], references: [id])
+  feedbacksSession feedbacksSession?
 }
 
-model FeedbackSession {
+model feedbacksSession {
   id        Int      @id @default(autoincrement())
   shape     Int
   tiredness Int
@@ -54,6 +54,6 @@ model FeedbackSession {
   date      DateTime
   userId    Int      @unique
   sessionId Int      @unique
-  user      User     @relation(fields: [userId], references: [id])
-  session   Session  @relation(fields: [sessionId], references: [id])
+  users     users    @relation(fields: [userId], references: [id])
+  sessions  sessions @relation(fields: [sessionId], references: [id])
 }
