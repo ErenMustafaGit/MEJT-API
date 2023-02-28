@@ -14,20 +14,21 @@ const getUser = async (email) => {
 	}
 };
 
-const createUser = async (email, name, password) => {
+const createUser = async (email, name, password, type) => {
 	try {
+		const typeFormatted = parseInt(type);
 		const user = await prisma.users.create({
 			data: {
 				email,
 				name,
 				password,
+				type:typeFormatted
 			},
 		});
 		return user;
-	}
-	catch (err) {
+	} catch (err) {
 		return err;
-	};
+	}
 };
 
 module.exports = {

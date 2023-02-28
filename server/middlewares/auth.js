@@ -23,6 +23,7 @@ passport.use(
 			const passwordHashed = await bcrypt.hash(password, 10);
 			try {
 				const name = req.body.name;
+				const type = req.body.type;
 				const userInDB = await getUser(email);
 				if (!_.isEmpty(userInDB)) {
 					if (userInDB instanceof Error) {
@@ -30,7 +31,7 @@ passport.use(
 					}
 					throw new Error('User already exists');
 				}
-				const user = await createUser(email, name, passwordHashed);
+				const user = await createUser(email, name, passwordHashed, type);
 				return done(null, user);
 			} catch (error) {
 				done(error);
