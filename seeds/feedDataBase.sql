@@ -15,17 +15,21 @@ INSERT INTO "users" VALUES (9, 'user9@gmail.com', '$2b$10$usIGoADM5dspuGsafDY0HO
 INSERT INTO "teams" VALUES (1, 'football club Villeurbanne', 1);
 INSERT INTO "teams" VALUES (2, 'Entrainement perso', 1);
 
-INSERT INTO "usersTeamMapping" VALUES (0, 1, 3);
-INSERT INTO "usersTeamMapping" VALUES (1, 1, 4);
-INSERT INTO "usersTeamMapping" VALUES (2, 1, 5);
-INSERT INTO "usersTeamMapping" VALUES (3, 1, 6);
-INSERT INTO "usersTeamMapping" VALUES (4, 1, 7);
-INSERT INTO "usersTeamMapping" VALUES (5, 2, 8);
+INSERT INTO "users_team_mapping" VALUES (0, 1, 3);
+INSERT INTO "users_team_mapping" VALUES (1, 1, 4);
+INSERT INTO "users_team_mapping" VALUES (2, 1, 5);
+INSERT INTO "users_team_mapping" VALUES (3, 1, 6);
+INSERT INTO "users_team_mapping" VALUES (4, 1, 7);
+INSERT INTO "users_team_mapping" VALUES (5, 2, 8);
 
 INSERT INTO "sessions" VALUES (1, (SELECT NOW() - interval '5 day'), 'stade de foot, Lyon', 'travail sur les jambes', 'Entrainement : Bas du corps', 1);
 INSERT INTO "sessions" VALUES (2, (SELECT NOW() + interval '5 day'), 'stade de foot, Villeurbanne', 'travail sur les bras', 'Entrainement : haut du corps', 1);
 
-INSERT INTO "feedbacksSession" VALUES (1, 5, 6, 6, 6, 'cheville droite', (SELECT NOW() - interval '3 day'), 3, 1);
-INSERT INTO "feedbacksSession" VALUES (2, 8, 2, 3, 8, '', (SELECT NOW() - interval '3 day'), 4, 1);
+INSERT INTO "feedbacks_session" VALUES (1, 5, 6, 6, 6, 'cheville droite', (SELECT NOW() - interval '3 day'), 3, 1);
+INSERT INTO "feedbacks_session" VALUES (2, 8, 2, 3, 8, '', (SELECT NOW() - interval '3 day'), 4, 1);
 
 SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id)+1, 1), false) FROM users;
+SELECT setval(pg_get_serial_sequence('users_team_mapping', 'id'), coalesce(max(id)+1, 1), false) FROM users;
+SELECT setval(pg_get_serial_sequence('teams', 'id'), coalesce(max(id)+1, 1), false) FROM users;
+SELECT setval(pg_get_serial_sequence('sessions', 'id'), coalesce(max(id)+1, 1), false) FROM users;
+SELECT setval(pg_get_serial_sequence('feedbacks_session', 'id'), coalesce(max(id)+1, 1), false) FROM users;

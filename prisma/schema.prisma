@@ -8,17 +8,17 @@ datasource db {
 }
 
 model users {
-  id               Int                @id @default(autoincrement())
-  email            String             @unique
-  password         String
-  name             String
-  type             Int
-  teams            teams[]
-  feedbacksSession feedbacksSession[]
-  usersTeamMapping usersTeamMapping[]
+  id                 Int                  @id @default(autoincrement())
+  email              String               @unique
+  password           String
+  name               String
+  type               Int
+  teams              teams[]
+  feedbacks_session  feedbacks_session[]
+  users_team_mapping users_team_mapping[]
 }
 
-model usersTeamMapping {
+model users_team_mapping {
   id     Int   @id @default(autoincrement())
   teamId Int
   teams  teams @relation(fields: [teamId], references: [id])
@@ -27,26 +27,26 @@ model usersTeamMapping {
 }
 
 model teams {
-  id               Int                @id @default(autoincrement())
-  name             String
-  userId           Int
-  users            users              @relation(fields: [userId], references: [id])
-  sessions         sessions[]
-  usersTeamMapping usersTeamMapping[]
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  userId             Int
+  users              users                @relation(fields: [userId], references: [id])
+  sessions           sessions[]
+  users_team_mapping users_team_mapping[]
 }
 
 model sessions {
-  id               Int                @id @default(autoincrement())
-  date             DateTime
-  place            String
-  description      String
-  name             String
-  teamId           Int
-  teams            teams              @relation(fields: [teamId], references: [id])
-  feedbacksSession feedbacksSession[]
+  id                Int                 @id @default(autoincrement())
+  date              DateTime
+  place             String
+  description       String
+  name              String
+  teamId            Int
+  teams             teams               @relation(fields: [teamId], references: [id])
+  feedbacks_session feedbacks_session[]
 }
 
-model feedbacksSession {
+model feedbacks_session {
   id        Int      @id @default(autoincrement())
   shape     Int
   tiredness Int
