@@ -17,6 +17,9 @@ const createTeam = async (userId, name) => {
 
 const addAthlete = async (teamId, userId) => {
 	try {
+		const userFormatted = parseInt(userId);
+		const teamFormatted = parseInt(teamId);
+
 		const team = await prisma.users_team_mapping.create({
 			data: {
                 teamId,
@@ -29,33 +32,12 @@ const addAthlete = async (teamId, userId) => {
 	}
 };
 
-const getAthlete = async (teamId) => {
-	try {
-		const athletes = await prisma.users_team_mapping.findMany({
-			where: {
-				teamId,
-			},
-			select: {
-				id: false,
-				teamId: false,
-				userId: false,
+addAthlete('3', '3').then(result => {
+    console.log(result);
+});
 
-				users: {
-					select: {
-						id: true,
-						email: true,
-						password: false,
-						name: true,
-						type: true
-					}
-				}
-			},
-		});
-		return athletes;
-	} catch (err) {
-		return err;
-	}
-};
+
+
 
 module.exports = {
 	createTeam, addAthlete, getAthlete,
