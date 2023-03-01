@@ -33,7 +33,7 @@ createTeam(1, 'teamTest').then(result => {
     console.log(result);
 });
 
-addAthlete(3, 3).then(result => {
+addAthlete(10, 3).then(result => {
     console.log(result);
 });
 
