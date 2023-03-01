@@ -1,16 +1,16 @@
 const createHttpError = require('http-errors');
 
-const Validators = require('../validators');
+const validators = require('../validators');
 
 module.exports = function(validator) {
 
 	// eslint-disable-next-line no-prototype-builtins
-	if(!Validators.hasOwnProperty(validator))
+	if(!validators.hasOwnProperty(validator))
 		throw new Error(`'${validator}' validator is not exist`);
 
 	return async function(req, res, next) {
 		try {
-			const validated = await Validators[validator].validateAsync(req.body);
+			const validated = await validators[validator].validateAsync(req.body);
 			req.body = validated;
 			next();
 		} catch (err) {
