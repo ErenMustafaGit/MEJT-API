@@ -16,10 +16,7 @@ const createTeam = async (userId, name) => {
 };
 
 const addAthlete = async (teamId, userId) => {
-	try {
-		const userFormatted = parseInt(userId);
-		const teamFormatted = parseInt(teamId);
-
+	try {		
 		const team = await prisma.users_team_mapping.create({
 			data: {
                 teamId,
