@@ -1,5 +1,3 @@
-setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id)+1, 1), false) FROM users;
-
 INSERT INTO "users" VALUES (1, 'user1@gmail.com', '$2b$10$X3o5fDDCzWWGp6Ec68BETuEZMTSpGwWo96XZTPYAITXqJ6ltZfFJ.', 'user1', 0); 
 -- PASSWORD : user1user
 INSERT INTO "users" VALUES (2, 'user2@gmail.com', '$2b$10$VSeBwEwfqrZWvJ2oVfPQpeDHERHopTGmNavolEdR9ORV2rrwliFOa', 'user2', 0);
@@ -29,3 +27,5 @@ INSERT INTO "sessions" VALUES (2, (SELECT NOW() + interval '5 day'), 'stade de f
 
 INSERT INTO "feedbacksSession" VALUES (1, 5, 6, 6, 6, 'cheville droite', (SELECT NOW() - interval '3 day'), 3, 1);
 INSERT INTO "feedbacksSession" VALUES (2, 8, 2, 3, 8, '', (SELECT NOW() - interval '3 day'), 4, 1);
+
+SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id)+1, 1), false) FROM users;
