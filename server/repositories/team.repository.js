@@ -29,17 +29,34 @@ const addAthlete = async (teamId, userId) => {
 	}
 };
 
-createTeam(1, 'teamTest').then(result => {
-    console.log(result);
-});
+const getAthlete = async (teamId) => {
+	try {
+		const athletes = await prisma.users_team_mapping.findMany({
+			where: {
+				teamId,
+			},
+			select: {
+				id: false,
+				teamId: false,
+				userId: false,
 
-addAthlete(10, 3).then(result => {
-    console.log(result);
-});
-
-
-
+				users: {
+					select: {
+						id: true,
+						email: true,
+						password: false,
+						name: true,
+						type: true
+					}
+				}
+			},	
+		});
+		return athletes;
+	} catch (err) {
+		return err;
+	}
+};
 
 module.exports = {
-	createTeam,
+	createTeam, addAthlete, getAthlete,
 };
