@@ -49,7 +49,7 @@ const getAthlete = async (teamId) => {
 						type: true
 					}
 				}
-			},	
+			},
 		});
 		return athletes;
 	} catch (err) {
