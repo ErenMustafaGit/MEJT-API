@@ -4,10 +4,11 @@
   "description": "express vercel boilerplate",
   "main": "app.js",
   "scripts": {
-    "start": "vercel dev",
     "test": "jest -i",
     "local": "node app.js",
-    "lint": "eslint ./ --fix"
+    "lint": "eslint ./ --fix",
+    "build": "node app.js",
+    "start": "node_modules/next/dist/bin/next start -p $PORT"
   },
   "dependencies": {
     "@prisma/client": "^4.10.1",
