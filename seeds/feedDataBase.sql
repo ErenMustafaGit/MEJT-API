@@ -1,3 +1,5 @@
+setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id)+1, 1), false) FROM users;
+
 INSERT INTO "users" VALUES (1, 'user1@gmail.com', 'user1user', 'user1', 0);
 INSERT INTO "users" VALUES (2, 'user2@gmail.com', 'user2user', 'user2', 0);
 INSERT INTO "users" VALUES (3, 'user3@gmail.com', 'user3user', 'user3', 1);
