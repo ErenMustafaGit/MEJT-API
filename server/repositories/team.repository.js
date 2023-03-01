@@ -16,7 +16,7 @@ const createTeam = async (userId, name) => {
 };
 
 const addAthlete = async (teamId, userId) => {
-	try {		
+	try {
 		const team = await prisma.users_team_mapping.create({
 			data: {
                 teamId,
@@ -49,7 +49,7 @@ const getAthlete = async (teamId) => {
 						type: true
 					}
 				}
-			},	
+			},
 		});
 		return athletes;
 	} catch (err) {
