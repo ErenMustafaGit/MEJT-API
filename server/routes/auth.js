@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const parser = require('body-parser');
 const urlencodedParser = parser.urlencoded({ extended: false });
-const validator = require('../middlewares/Validator');
+const validator = require('../middlewares/validator');
 
 require('../middlewares/auth');
 
