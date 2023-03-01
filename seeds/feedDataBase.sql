@@ -29,7 +29,7 @@ INSERT INTO "feedbacks_session" VALUES (1, 5, 6, 6, 6, 'cheville droite', (SELEC
 INSERT INTO "feedbacks_session" VALUES (2, 8, 2, 3, 8, '', (SELECT NOW() - interval '3 day'), 4, 1);
 
 SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id)+1, 1), false) FROM users;
-SELECT setval(pg_get_serial_sequence('users_team_mapping', 'id'), coalesce(max(id)+1, 1), false) FROM users;
-SELECT setval(pg_get_serial_sequence('teams', 'id'), coalesce(max(id)+1, 1), false) FROM users;
-SELECT setval(pg_get_serial_sequence('sessions', 'id'), coalesce(max(id)+1, 1), false) FROM users;
-SELECT setval(pg_get_serial_sequence('feedbacks_session', 'id'), coalesce(max(id)+1, 1), false) FROM users;
+SELECT setval(pg_get_serial_sequence('users_team_mapping', 'id'), coalesce(max(id)+1, 1), false) FROM users_team_mapping;
+SELECT setval(pg_get_serial_sequence('teams', 'id'), coalesce(max(id)+1, 1), false) FROM teams;
+SELECT setval(pg_get_serial_sequence('sessions', 'id'), coalesce(max(id)+1, 1), false) FROM sessions;
+SELECT setval(pg_get_serial_sequence('feedbacks_session', 'id'), coalesce(max(id)+1, 1), false) FROM feedbacks_session;
