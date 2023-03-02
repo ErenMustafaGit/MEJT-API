@@ -46,12 +46,16 @@ router.post(
 				}
 
 				req.login(user, { session: false }, async (error) => {
-					if (error) return next(error);
+					if (error) return res.json({ success: false });
 
-					const body = { _id: user._id, id: user.id };
-					const token = jwt.sign({ user: body }, process.env.PRIVATE_KEY);
+					if (_.isEqual(user?.success, false)) {
+						return res.json(user);
+					} else {
+						const body = { _id: user._id, id: user.id };
+						const token = jwt.sign({ user: body }, process.env.PRIVATE_KEY);
 
-					return res.json({ token });
+						return res.json({ token });
+					}
 				});
 			} catch (error) {
 				return next(error);

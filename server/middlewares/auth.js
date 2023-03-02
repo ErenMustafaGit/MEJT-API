@@ -53,17 +53,17 @@ passport.use(
 				const user = await getUser(email);
 
 				if (!user) {
-					return done(null, false, { message: 'User not found' });
+					return done(null, { success: false, message: 'User not found' });
 				}
 				const validate = await isValidPassword(password, user.password);
 
 				if (!validate) {
-					return done(null, false, { message: 'Wrong Password' });
+					return done(null, { success: false, message: 'Wrong Password' });
 				}
 
 				return done(null, user, { message: 'Logged in Successfully' });
 			} catch (error) {
-				return done(error);
+				return done(null, { success: false, error });
 			}
 		}
 	)
