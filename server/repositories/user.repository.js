@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const getUser = async (email) => {
@@ -10,7 +10,15 @@ const getUser = async (email) => {
 		});
 		return user;
 	} catch (err) {
-		return err;
+		if (err instanceof Prisma.PrismaClientInitializationError) {
+			return {
+				success: false,
+				error:
+          'An issue occurred during connection to the database. Please try again later.',
+			};
+		} else {
+			return { success: false, error: 'Issue with database' };
+		}
 	}
 };
 
@@ -22,7 +30,7 @@ const createUser = async (email, name, password, type) => {
 				email,
 				name,
 				password,
-				type:typeFormatted
+				type: typeFormatted,
 			},
 		});
 		return user;

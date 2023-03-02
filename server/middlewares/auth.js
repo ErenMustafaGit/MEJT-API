@@ -26,10 +26,11 @@ passport.use(
 				const type = req.body.type;
 				const userInDB = await getUser(email);
 				if (!_.isEmpty(userInDB)) {
-					if (userInDB instanceof Error) {
-						throw userInDB;
+					if (_.isEqual(userInDB?.success, false)) {
+						return done(null, userInDB);
+					} else {
+						return done(null, { success: false, error: 'User already exists' });
 					}
-					throw new Error('User already exists');
 				}
 				const user = await createUser(email, name, passwordHashed, type);
 				return done(null, user);
