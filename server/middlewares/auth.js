@@ -3,7 +3,7 @@ const localStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
-const { getUser, createUser } = require('../repositories/user.repository');
+const { getUserByEmail, createUser } = require('../repositories/user.repository');
 
 const isValidPassword = async (password1, password2) => {
 	const compare = await bcrypt.compare(password1, password2);
@@ -24,7 +24,7 @@ passport.use(
 			try {
 				const name = req.body.name;
 				const type = req.body.type;
-				const userInDB = await getUser(email);
+				const userInDB = await getUserByEmail(email);
 				if (!_.isEmpty(userInDB)) {
 					if (_.isEqual(userInDB?.success, false)) {
 						return done(null, userInDB);
@@ -50,7 +50,7 @@ passport.use(
 		},
 		async (email, password, done) => {
 			try {
-				const user = await getUser(email);
+				const user = await getUserByEmail(email);
 
 				if (!user) {
 					return done(null, { success: false, message: 'User not found' });
