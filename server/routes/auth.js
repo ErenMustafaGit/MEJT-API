@@ -7,6 +7,7 @@ const urlencodedParser = parser.urlencoded({ extended: false });
 const _ = require('lodash');
 
 const validator = require('../middlewares/validator');
+const { getUserById } = require('../repositories/user.repository');
 
 require('../middlewares/auth');
 
@@ -26,7 +27,7 @@ router.post(
 					type: user.type,
 				};
 				res.json({
-					success:true,
+					success: true,
 					user: userWithoutPassword,
 				});
 			}
@@ -54,8 +55,9 @@ router.post(
 					} else {
 						const body = { _id: user._id, id: user.id };
 						const token = jwt.sign({ user: body }, process.env.PRIVATE_KEY);
+						const userWithDetails = await getUserById(user.id);
 
-						return res.json({ token });
+						return res.json({ success: true, user: userWithDetails, token });
 					}
 				});
 			} catch (error) {
