@@ -26,6 +26,7 @@ router.post(
 					type: user.type,
 				};
 				res.json({
+					success:true,
 					user: userWithoutPassword,
 				});
 			}
