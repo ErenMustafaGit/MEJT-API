@@ -3,7 +3,7 @@ const localStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
-const { getUser, createUser } = require('../repositories/user.repository');
+const { getUserByEmail, createUser } = require('../repositories/user.repository');
 
 const isValidPassword = async (password1, password2) => {
 	const compare = await bcrypt.compare(password1, password2);
@@ -24,12 +24,13 @@ passport.use(
 			try {
 				const name = req.body.name;
 				const type = req.body.type;
-				const userInDB = await getUser(email);
+				const userInDB = await getUserByEmail(email);
 				if (!_.isEmpty(userInDB)) {
-					if (userInDB instanceof Error) {
-						throw userInDB;
+					if (_.isEqual(userInDB?.success, false)) {
+						return done(null, userInDB);
+					} else {
+						return done(null, { success: false, error: 'User already exists' });
 					}
-					throw new Error('User already exists');
 				}
 				const user = await createUser(email, name, passwordHashed, type);
 				return done(null, user);
@@ -49,20 +50,20 @@ passport.use(
 		},
 		async (email, password, done) => {
 			try {
-				const user = await getUser(email);
+				const user = await getUserByEmail(email);
 
 				if (!user) {
-					return done(null, false, { message: 'User not found' });
+					return done(null, { success: false, message: 'User not found' });
 				}
 				const validate = await isValidPassword(password, user.password);
 
 				if (!validate) {
-					return done(null, false, { message: 'Wrong Password' });
+					return done(null, { success: false, message: 'Wrong Password' });
 				}
 
 				return done(null, user, { message: 'Logged in Successfully' });
 			} catch (error) {
-				return done(error);
+				return done(null, { success: false, error });
 			}
 		}
 	)

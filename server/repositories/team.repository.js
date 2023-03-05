@@ -5,8 +5,8 @@ const createTeam = async (userId, name) => {
 	try {
 		const team = await prisma.teams.create({
 			data: {
-                name,
-				userId
+				name,
+				userId,
 			},
 		});
 		return team;
@@ -19,8 +19,8 @@ const addAthlete = async (teamId, userId) => {
 	try {
 		const team = await prisma.users_team_mapping.create({
 			data: {
-                teamId,
-				userId
+				teamId,
+				userId,
 			},
 		});
 		return team;
@@ -29,7 +29,7 @@ const addAthlete = async (teamId, userId) => {
 	}
 };
 
-const getAthlete = async (teamId) => {
+const getAthletes = async (teamId) => {
 	try {
 		const athletes = await prisma.users_team_mapping.findMany({
 			where: {
@@ -46,9 +46,47 @@ const getAthlete = async (teamId) => {
 						email: true,
 						password: false,
 						name: true,
-						type: true
-					}
-				}
+						type: true,
+					},
+				},
+			},
+		});
+		return athletes;
+	} catch (err) {
+		return err;
+	}
+};
+
+const getTeamsByUserId = async (trainerId) => {
+	try {
+		const athletes = await prisma.teams.findMany({
+			where: {
+				userId: trainerId,
+			},
+			include: {
+				_count: {
+					select: {
+						sessions: true,
+					},
+				},
+				sessions: {
+					where: {
+						date: {
+							gte: new Date(Date.now()).toISOString(),
+						},
+					},
+					orderBy: {
+						date: 'asc',
+					},
+					select: {
+						id: true,
+						date: true,
+						place: true,
+						description: true,
+						name: true,
+						teamId: false,
+					},
+				},
 			},
 		});
 		return athletes;
@@ -58,5 +96,8 @@ const getAthlete = async (teamId) => {
 };
 
 module.exports = {
-	createTeam, addAthlete, getAthlete,
+	createTeam,
+	addAthlete,
+	getAthletes,
+	getTeamsByUserId,
 };

@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const parser = require('body-parser');
 const urlencodedParser = parser.urlencoded({ extended: false });
+const _ = require('lodash');
+
 const validator = require('../middlewares/validator');
 
 require('../middlewares/auth');
@@ -12,17 +14,22 @@ router.post(
 	'/signup',
 	urlencodedParser,
 	validator('register'),
-	passport.authenticate('signup', { session: false }),
-	async (req, res) => {
-		const userWithoutPassword = {
-			id: req.user.id,
-			email: req.user.email,
-			name: req.user.name,
-			type: req.user.type,
-		};
-		res.json({
-			user: userWithoutPassword,
-		});
+	async (req, res, next) => {
+		passport.authenticate('signup', { session: false }, async (err, user) => {
+			if (_.isEqual(user?.success, false)) {
+				res.json(user);
+			} else {
+				const userWithoutPassword = {
+					id: user.id,
+					email: user.email,
+					name: user.name,
+					type: user.type,
+				};
+				res.json({
+					user: userWithoutPassword,
+				});
+			}
+		})(req, res, next);
 	}
 );
 
@@ -31,21 +38,24 @@ router.post(
 	urlencodedParser,
 	validator('login'),
 	async (req, res, next) => {
-		passport.authenticate('login', async (err, user, info) => {
+		passport.authenticate('login', async (err, user) => {
 			try {
 				if (err || !user) {
-					const error = new Error(info?.message);
-
-					return next(error);
+					const errorJson = { success: false };
+					return res.json(errorJson);
 				}
 
 				req.login(user, { session: false }, async (error) => {
-					if (error) return next(error);
+					if (error) return res.json({ success: false });
 
-					const body = { _id: user._id, id: user.id };
-					const token = jwt.sign({ user: body }, process.env.PRIVATE_KEY);
+					if (_.isEqual(user?.success, false)) {
+						return res.json(user);
+					} else {
+						const body = { _id: user._id, id: user.id };
+						const token = jwt.sign({ user: body }, process.env.PRIVATE_KEY);
 
-					return res.json({ token });
+						return res.json({ token });
+					}
 				});
 			} catch (error) {
 				return next(error);
