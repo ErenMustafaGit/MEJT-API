@@ -95,9 +95,36 @@ const getTeamsByUserId = async (trainerId) => {
 	}
 };
 
+const getTeamsByAthleteId = async (athleteId) => {
+	try {
+		const athletes = await prisma.users_team_mapping.findMany({
+			where: {
+				userId: athleteId,
+			},
+			select: {
+				id: false,
+				teamId: true,
+				userId: false,
+
+				teams: {
+					select: {
+						id: false,
+						name: true,
+						userId: false,
+					},
+				},
+			},
+		});
+		return athletes;
+	} catch (err) {
+		return err;
+	}
+};
+
 module.exports = {
 	createTeam,
 	addAthlete,
 	getAthletes,
 	getTeamsByUserId,
+	getTeamsByAthleteId,
 };
