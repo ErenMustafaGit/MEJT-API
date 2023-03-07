@@ -96,7 +96,7 @@ const getTeamsByUserId = async (trainerId) => {
 };
 
 const getTeamsByAthleteId = async (athleteId) => {
-	try {
+	try { 
 		const athletes = await prisma.users_team_mapping.findMany({
 			where: {
 				userId: athleteId,

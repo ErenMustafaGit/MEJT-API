@@ -3,7 +3,7 @@ const { getTeamsByAthleteId } = require('../../repositories/team.repository');
 const getTeamsFormattedByAthleteId = async (athleteId) => {
 	try {
 		const teams = await getTeamsByAthleteId(athleteId);
-		const formattedTeams = Promise.all(
+		const formattedTeams = await Promise.all(
 			teams.map(async (team) => {
 				const name = team?.teams?.name;
 				const teamWithGoodFields = {...team,name};

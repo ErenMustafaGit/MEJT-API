@@ -8,7 +8,8 @@
     "local": "node app.js",
     "lint": "eslint ./ --fix",
     "build": "node app.js",
-    "start": "node_modules/next/dist/bin/next start -p $PORT"
+    "start": "node_modules/next/dist/bin/next start -p $PORT",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^4.10.1",
