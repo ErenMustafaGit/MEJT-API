@@ -5,6 +5,7 @@ const athleteTeamsRoute = require('./routes/athlete/teams');
 const athleteSessionsRoute = require('./routes/athlete/sessions');
 const trainerTeamFeedbacksRoute = require('./routes/trainer/feedbackSessions');
 const UserAthleteFeedbacksRoute = require('./routes/user/feedbackSessions');
+const AthleteCreateFeedbackRoute = require('./routes/athlete/feedbackSessions');
 
 const allRoutes = [
 	authRoute,
@@ -14,6 +15,7 @@ const allRoutes = [
 	athleteSessionsRoute,
 	trainerTeamFeedbacksRoute,
 	UserAthleteFeedbacksRoute,
+	AthleteCreateFeedbackRoute
 ];
 
 module.exports = allRoutes;
