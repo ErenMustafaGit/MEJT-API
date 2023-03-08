@@ -3,14 +3,9 @@ const { isEmpty } = require('lodash');
 const router = express.Router();
 const passport = require('passport');
 const { getUserById } = require('../../repositories/user.repository');
-const {
-	createAthleteFeedback,
-	getFeedbackSessionIfProvided,
+const { 
+    createAthleteFeedback,
 } = require('../../services/athlete/feedbackSessions');
-const {
-	getSessionsByTeamIdWithFeedbackBoolean,
-} = require('../../services/athlete/sessions');
-const { getTeamsFormattedByAthleteId } = require('../../services/athlete/teams');
 
 require('../../middlewares/auth');
 
@@ -130,6 +125,43 @@ router.get('/athlete/feedbackSession/notProvided', async (req, res, next) => {
 			sessionsWithoutFeedback.map((session) => delete session.feedbackProvided);
 
 			return res.send({ success: true, sessions: sessionsWithoutFeedback });
+		}
+	})(req, res, next);
+});
+
+router.get('/athlete/feedbackSession', async (req, res, next) => {
+	passport.authenticate('jwt', { session: false }, async (err, user) => {
+		if (!user) 
+        {
+			return res.json({
+				success: false,
+				error: 'The token is empty or is invalid',
+			});
+		}
+        else 
+        {
+			const userLogged = await getUserById(user.id);
+
+            if(userLogged.type != 1)
+            {
+                return res.json({
+                    success: false,
+                    error: 'You are not authorized to get the feedback',
+                });
+            }
+
+            const sessionId = parseInt(req.query.sessionId);
+            let feedbackProvided;
+            try {
+                feedbackProvided = await getFeedbackSessionIfProvided(userLogged.id, sessionId);
+            }
+            catch(err)
+            {
+                return res.send({ success: false , error: {err}})
+            }
+            const formattedFeedbackProvided = { success: true , sessionFeedback: (isEmpty(feedbackProvided) ? null : feedbackProvided)};
+
+            return res.send(formattedFeedbackProvided);
 		}
 	})(req, res, next);
 });
