@@ -44,6 +44,38 @@ const getFeedbackSessionsFromUser = async (userId, teamId, startingDate, endingD
 	}
 };
 
+const getFeedbackSessionByUserId = async (userId, sessionId) => {
+	try {
+		const feedback_session = await prisma.feedbacks_session.findMany({
+			where: {
+				userId,
+				sessionId,
+			},
+			select: {
+				id: true,
+				shape: true,
+				tiredness: true,
+				stress:true,
+				sensation:true,
+				injury:true,
+				date:true,
+				userId:true,
+				sessionId:true,
+				sessions:{
+					select:{
+						name: true,
+					}
+				},
+			},
+			take: 1,
+		});
+
+		return feedback_session;
+	} catch (err) {
+		return err;
+	}
+};
+
 const createFeedbackSession = async (userId, sessionId, shape, tiredness, stress, sensation, injury) => {
 	try {
 		const feedbacks_session = await prisma.feedbacks_session.create({
@@ -66,7 +98,6 @@ const createFeedbackSession = async (userId, sessionId, shape, tiredness, stress
 	}
 };
 
-
 module.exports = {
-	getFeedbackSessionsFromUser, createFeedbackSession,
+	getFeedbackSessionsFromUser, createFeedbackSession, getFeedbackSessionByUserId,
 };
