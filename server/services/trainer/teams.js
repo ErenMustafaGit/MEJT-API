@@ -49,12 +49,11 @@ const createTeam = async (team) => {
 	try {
 		const newTeam = await createTeamRepo(team.trainerId, team.name);
 		let athletesFormatted = [];
-		team.athletes.forEach(async (athlete) => {
-			const user = await getUserByEmail(athlete.email);
-			athletesFormatted.push(user.id);
-		});
-		const athleteIds = athletesFormatted.map((athlete) => athlete.userId);
-		const newTeamWithAthletes = await addAthletes(newTeam.id, athleteIds);
+		team.athletes
+			.forEach((athlete) => {
+				athletesFormatted.push(athlete.email);
+			});
+		const newTeamWithAthletes = await addAthletes(newTeam.id, athletesFormatted);
 		return newTeamWithAthletes;
 	} catch (err) {
 		return err;

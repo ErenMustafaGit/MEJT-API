@@ -1,4 +1,5 @@
 const prisma = require('../../prisma/config');
+const { getUserByEmail } = require('./user.repository');
 
 const createTeamRepo = async (userId, name) => {
 	try {
@@ -28,16 +29,20 @@ const addAthlete = async (teamId, userId) => {
 	}
 };
 
-const addAthletes = async (teamId, userIds) => {
+const addAthletes = async (teamId, emailIds) => {
 	try {
-		const team = userIds.map(async (userId) => {
-			return await prisma.users_team_mapping.create({
-				data: {
-					teamId,
-					userId,
-				},
-			});
-		});
+		const team = 
+			await Promise.all(emailIds.map(async (emailId) => {
+				const user = await getUserByEmail(emailId);
+				const id = user.id;
+				const newMapping = await prisma.users_team_mapping.create({
+					data: {
+						teamId,
+						userId:id,
+					},
+				});
+				return newMapping;
+			}));
 		return team;
 	} catch (err) {
 		return err;
