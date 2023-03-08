@@ -38,11 +38,12 @@ const addAthletes = async (teamId, emailIds) => {
 				const id = user.id;
 				dataFormatted.push({ teamId, userId: id });
 			})
-		);
-		const newMappings = await prisma.users_team_mapping.createMany({
-			data: dataFormatted,
+		).then(async () => {
+			const newMappings = await prisma.users_team_mapping.createMany({
+				data: dataFormatted,
+			});
+			return newMappings;
 		});
-		return newMappings;
 	} catch (err) {
 		return err;
 	}
