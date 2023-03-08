@@ -13,6 +13,24 @@ const getSessionsByTeamId = async (teamId) => {
 	}
 };
 
+const createSession = async (session) => {
+	try {
+		const sessionCreated = await prisma.sessions.create({
+			data: {
+				teamId: session.teamId,
+				date: session.date,
+				place: session.place,
+				description: session.description,
+				name: session.name,
+			},
+		});
+		return sessionCreated;
+	} catch (err) {
+		return err;
+	}
+};
+
 module.exports = {
-	getSessionsByTeamId
+	getSessionsByTeamId,
+	createSession,
 };
