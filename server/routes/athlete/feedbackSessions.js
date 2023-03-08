@@ -46,7 +46,7 @@ router.post('/athlete/feedbackSession/create', async (req, res, next) => {
                 return { success: false , erreur: err};
             }
 
-            const formattedFeedbackCreated = { success: true , feedbackSessionsId: feedbackCreated.id};
+            const formattedFeedbackCreated = { success: true , sessionId: sessionId};
 
             return res.send(formattedFeedbackCreated);
 		}
