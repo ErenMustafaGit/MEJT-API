@@ -58,6 +58,8 @@ const createFeedbackSession = async (userId, sessionId, shape, tiredness, stress
                 sessionId,
 			},
 		});
+
+		console.log('feedbacks_session :>> ', feedbacks_session);
 		return feedbacks_session;
 	} catch (err) {
 		return err;
