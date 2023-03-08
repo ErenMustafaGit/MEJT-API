@@ -7,50 +7,33 @@ const getFeedbackSessionsFromUser = async (userId, teamId, startingDate, endingD
 		const feedbackSessions = await prisma.feedbacks_session.findMany({
 			where: {
 				userId,
-                teamId,
                 date: {
                     lte: endingDate != null ? endingDate : undefined,
                     gte: startingDate != null ? startingDate : undefined,
-                }
-			},
-		});
-		return feedbackSessions;
-	} catch (err) {
-		return err;
-	}
-};
-
-const getUserWithLastUpdate = async (userId, teamId) => {
-	try {
-		const feedbackSessions = await prisma.feedbacks_session.findMany({
-			where: {
-				userId,
-                teamId: teamId != null ? teamId : undefined,
-			},
-			select: {
-				users: {
-					select: {
-						id: true,
-						email: true,
-						password: false,
-						name: true,
-						type: true
+                },
+				sessions: {
+					is:
+					{
+						teamId,
 					}
 				},
-                id:        false,
-                shape:     false,
-                tiredness: false,
-                stress:    false,
-                sensation: false,
-                injury:    false,
-                userId:    false,
-                sessionId: false,
-                date:      true,
-            },
-            take: 1,
-            orderBy: {
-                date: 'desc',
-            }
+			},
+			select: {
+				id: true,
+				shape: true,
+				tiredness: true,
+				stress:true,
+				sensation:true,
+				injury:true,
+				date:true,
+				userId:true,
+				sessionId:true,
+				sessions: {
+					select:{
+						name:true,
+					}
+				}
+			}
 		});
 		return feedbackSessions;
 	} catch (err) {
@@ -78,6 +61,10 @@ const createFeedbackSession = async (userId, sessionId, shape, tiredness, stress
 	}
 };
 
+getFeedbackSessionsFromUser(3, 1).then(result => {
+    console.log(result);
+});
+
 module.exports = {
-	getFeedbackSessionsFromUser, getUserWithLastUpdate, createFeedbackSession,
+	getFeedbackSessionsFromUser, createFeedbackSession,
 };
