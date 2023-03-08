@@ -4,7 +4,6 @@ const {
 	createTeamRepo,
 	addAthletes,
 } = require('../../repositories/team.repository');
-const { getUserByEmail } = require('../../repositories/user.repository');
 
 const getAthletesByTeamId = async (teamId) => {
 	try {
