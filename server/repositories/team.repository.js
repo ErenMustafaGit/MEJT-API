@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const createTeam = async (userId, name) => {
+const createTeamRepo = async (userId, name) => {
 	try {
 		const team = await prisma.teams.create({
 			data: {
@@ -22,6 +22,22 @@ const addAthlete = async (teamId, userId) => {
 				teamId,
 				userId,
 			},
+		});
+		return team;
+	} catch (err) {
+		return err;
+	}
+};
+
+const addAthletes = async (teamId, userIds) => {
+	try {
+		const team = userIds.map(async (userId) => {
+			return await prisma.users_team_mapping.create({
+				data: {
+					teamId,
+					userId,
+				},
+			});
 		});
 		return team;
 	} catch (err) {
@@ -96,7 +112,7 @@ const getTeamsByUserId = async (trainerId) => {
 };
 
 const getTeamsByAthleteId = async (athleteId) => {
-	try { 
+	try {
 		const athletes = await prisma.users_team_mapping.findMany({
 			where: {
 				userId: athleteId,
@@ -122,8 +138,9 @@ const getTeamsByAthleteId = async (athleteId) => {
 };
 
 module.exports = {
-	createTeam,
+	createTeamRepo,
 	addAthlete,
+	addAthletes,
 	getAthletes,
 	getTeamsByUserId,
 	getTeamsByAthleteId,
