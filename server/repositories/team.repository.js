@@ -31,19 +31,18 @@ const addAthlete = async (teamId, userId) => {
 
 const addAthletes = async (teamId, emailIds) => {
 	try {
-		const team = 
-			await Promise.all(emailIds.map(async (emailId) => {
+		let dataFormatted = [];
+		await Promise.all(
+			emailIds.map(async (emailId) => {
 				const user = await getUserByEmail(emailId);
 				const id = user.id;
-				const newMapping = await prisma.users_team_mapping.create({
-					data: {
-						teamId,
-						userId:id,
-					},
-				});
-				return newMapping;
-			}));
-		return team;
+				dataFormatted.push({ teamId, userId: id });
+			})
+		);
+		const newMappings = await prisma.users_team_mapping.createMany({
+			data: dataFormatted,
+		});
+		return newMappings;
 	} catch (err) {
 		return err;
 	}
