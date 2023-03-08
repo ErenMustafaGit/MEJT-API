@@ -12,7 +12,7 @@ const createAthleteFeedback = async (userId, sessionId, shape, tiredness, stress
 };
 
 const getFeedbackSessionIfProvided = async (userId, sessionId) => {
-	const feedbackProvided = await getFeedbackSessionByUserId(userId, sessionId);
+    const feedbackProvided = await getFeedbackSessionByUserId(userId, sessionId);
 
 	if(isEmpty(feedbackProvided))
 	{
