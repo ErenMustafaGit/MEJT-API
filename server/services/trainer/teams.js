@@ -48,7 +48,7 @@ const getTeamsByTrainerId = async (trainerId) => {
 const createTeam = async (team) => {
 	const newTeam = await createTeamRepo(team.trainerId, team.name);
 	let athletesFormatted = [];
-	team.athletes.foreach(async (athlete) => {
+	team.athletes.forEach(async (athlete) => {
 		const user = await getUserByEmail(athlete.email);
 		athletesFormatted.push(user.id);
 	});
