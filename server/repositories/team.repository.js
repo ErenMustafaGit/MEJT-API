@@ -141,6 +141,19 @@ const getTeamsByAthleteId = async (athleteId) => {
 	}
 };
 
+const getTeamById = async (teamId) => {
+	try {
+		const team = await prisma.teams.findUnique({
+			where: {
+				id: teamId,
+			}
+		});
+		return team;
+	} catch (err) {
+		return err;
+	}
+};
+
 module.exports = {
 	createTeamRepo,
 	addAthlete,
@@ -148,4 +161,5 @@ module.exports = {
 	getAthletes,
 	getTeamsByUserId,
 	getTeamsByAthleteId,
+	getTeamById
 };
