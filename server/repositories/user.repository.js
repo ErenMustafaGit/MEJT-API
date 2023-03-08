@@ -1,5 +1,5 @@
-const { PrismaClient, Prisma } = require('@prisma/client');
-const prisma = new PrismaClient();
+const { Prisma } = require('@prisma/client');
+const prisma = require('../../prisma/config');
 
 const getUserByEmail = async (email) => {
 	try {
