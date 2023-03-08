@@ -1,13 +1,14 @@
 const { Prisma } = require('@prisma/client');
 const prisma = require('../../prisma/config');
 
-const getUsersWithLastUpdate = async (teamId) => {
+const getUsersWithLastUpdate = async (teamId, userId) => {
 	try {
 		const usersWithLastFeedback = await prisma.users.findMany({
 			where: {
+				id: userId != null ? userId : undefined,
 				users_team_mapping: {
 					some: {
-						teamId
+						teamId: teamId != null ? teamId : undefined,
 					}
 				}
 			},
@@ -108,11 +109,6 @@ const createUser = async (email, name, password, type) => {
 	}
 };
 
-getUsersWithLastUpdate(2).then(result => {
-    console.log(result);
-    console.log(result[1]);
-
-});
 
 module.exports = {
 	getUserByEmail,

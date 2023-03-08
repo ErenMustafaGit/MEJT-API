@@ -14,7 +14,7 @@ const getFeedbackSessionsFromUser = async (userId, teamId, startingDate, endingD
 				sessions: {
 					is:
 					{
-						teamId,
+						teamId: teamId != null ? teamId : undefined,
 					}
 				},
 			},
@@ -28,12 +28,15 @@ const getFeedbackSessionsFromUser = async (userId, teamId, startingDate, endingD
 				date:true,
 				userId:true,
 				sessionId:true,
-				sessions: {
+				sessions:{
 					select:{
-						name:true,
+						name: true,
 					}
-				}
-			}
+				},
+			},
+			orderBy: {
+				date: 'desc'
+			},
 		});
 		return feedbackSessions;
 	} catch (err) {
@@ -61,9 +64,6 @@ const createFeedbackSession = async (userId, sessionId, shape, tiredness, stress
 	}
 };
 
-getFeedbackSessionsFromUser(3, 1).then(result => {
-    console.log(result);
-});
 
 module.exports = {
 	getFeedbackSessionsFromUser, createFeedbackSession,
