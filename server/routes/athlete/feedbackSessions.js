@@ -1,4 +1,5 @@
 const express = require('express');
+const { isEmpty } = require('lodash');
 const router = express.Router();
 const passport = require('passport');
 const { getUserById } = require('../../repositories/user.repository');
@@ -127,7 +128,6 @@ router.get('/athlete/feedbackSession/notProvided', async (req, res, next) => {
 		}
 	})(req, res, next);
 });
-
 
 
 module.exports = router;
