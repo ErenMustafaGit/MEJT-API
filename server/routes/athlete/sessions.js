@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const { getUserById } = require('../../repositories/user.repository');
-const { getSessionsByTeamIdWithFeedbackBoolean } = require('../../services/athlete/sessions');
+const {
+	getSessionsByTeamIdWithFeedbackBoolean,
+} = require('../../services/athlete/sessions');
 
 require('../../middlewares/auth');
 
@@ -23,8 +25,12 @@ router.get('/athlete/sessions', async (req, res, next) => {
 			} else {
 				athleteId = parseInt(req.query.athleteId);
 			}
-			const allSessions = await getSessionsByTeamIdWithFeedbackBoolean(athleteId, teamId);
-			return res.send(allSessions);
+			const allSessions = await getSessionsByTeamIdWithFeedbackBoolean(
+				athleteId,
+				teamId
+			);
+			const resultFormatted = { success: true, sessions: allSessions };
+			return res.send(resultFormatted);
 		}
 	})(req, res, next);
 });
