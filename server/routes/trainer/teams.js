@@ -58,8 +58,12 @@ router.post('/trainer/teams/create', async (req, res, next) => {
 				const athletes = req.body.athletes;
 
 				const trainerId = user.id;
-				createTeam({ name, trainerId, athletes });
-				return res.send({success: true });
+				try {
+					createTeam({ name, trainerId, athletes });
+					return res.send({ success: true });
+				} catch (err) {
+					return res.send(err);
+				}
 			}
 		}
 	})(req, res, next);

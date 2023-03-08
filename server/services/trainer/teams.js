@@ -46,15 +46,19 @@ const getTeamsByTrainerId = async (trainerId) => {
 };
 
 const createTeam = async (team) => {
-	const newTeam = await createTeamRepo(team.trainerId, team.name);
-	let athletesFormatted = [];
-	team.athletes.forEach(async (athlete) => {
-		const user = await getUserByEmail(athlete.email);
-		athletesFormatted.push(user.id);
-	});
-	const athleteIds = athletesFormatted.map((athlete) => athlete.userId);
-	const newTeamWithAthletes = await addAthletes(newTeam.id, athleteIds);
-	return newTeamWithAthletes;
+	try {
+		const newTeam = await createTeamRepo(team.trainerId, team.name);
+		let athletesFormatted = [];
+		team.athletes.forEach(async (athlete) => {
+			const user = await getUserByEmail(athlete.email);
+			athletesFormatted.push(user.id);
+		});
+		const athleteIds = athletesFormatted.map((athlete) => athlete.userId);
+		const newTeamWithAthletes = await addAthletes(newTeam.id, athleteIds);
+		return newTeamWithAthletes;
+	} catch (err) {
+		return err;
+	}
 };
 
 module.exports = { getAthletesByTeamId, getTeamsByTrainerId, createTeam };
