@@ -11,12 +11,14 @@ const {
 
 const getFeedbacksByTeamId = async (teamId, startingDate, endingDate) => {
 	const athletes = await getUsersWithLastUpdate(teamId);
+	
+
 	const formattedUsers = Promise.all(athletes.map(async(athlete) => {
 		const feedbacks = await getFeedbackSessionsFromUser(athlete.id, teamId, startingDate, endingDate);
 		const lastUpdate = (isEmpty(athlete.feedbacks_session) ? null : athlete.feedbacks_session[0].date); 
 
 		var formattedFeedbacks = [];
-
+				
 		feedbacks.forEach(feedback => {
 			formattedFeedbacks.push({ 
 				sessionId: feedback.sessionId,
@@ -35,7 +37,7 @@ const getFeedbacksByTeamId = async (teamId, startingDate, endingDate) => {
 			email: athlete.email, 
 			name: athlete.name, 
 			lastUpdate: lastUpdate, 
-			sessionsFeedbacks: (isEmpty(formattedFeedbacks) ? null : {...formattedFeedbacks})
+			sessionsFeedbacks: (isEmpty(formattedFeedbacks) ? null : [...formattedFeedbacks])
 		};
 
 		return formattedAthletes;

@@ -22,11 +22,11 @@ router.get('/trainer/feedbackSessions', async (req, res, next) => {
 					error: 'The user is not a trainer',
 				});
 			} else {
-                const teamId = req.body.teamId;
-                const startingDate = req.body.startingDate;
-                const endingDate = req.body.endingDate;
-				const team = await getFeedbacksByTeamId(teamId, startingDate, endingDate);
-				const formattedFeedbacks = { success: true, team };
+                const teamId = parseInt(req.query.teamId);
+                const startingDate = req.query.startingDate;
+                const endingDate = req.query.endingDate;
+				const athletes = await getFeedbacksByTeamId(teamId, startingDate, endingDate);
+				const formattedFeedbacks = { success: true, athletes };
 				return res.send(formattedFeedbacks);
 			}
 		}
