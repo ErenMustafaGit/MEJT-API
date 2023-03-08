@@ -1,5 +1,5 @@
-const { PrismaClient, Prisma } = require('@prisma/client');
-const prisma = new PrismaClient();
+const { Prisma } = require('@prisma/client');
+const prisma = require('../../prisma/config');
 
 const getUserByEmail = async (email) => {
 	try {
@@ -29,6 +29,13 @@ const getUserById = async (userId) => {
 				id:userId,
 			},
 		});
+		if (!user) {
+			return {
+				success: false,
+				error:
+          'This user does not exist in the database.',
+			};
+		}
 		return user;
 	} catch (err) {
 		if (err instanceof Prisma.PrismaClientInitializationError) {
