@@ -54,7 +54,7 @@ const getFeedbackSessionIfProvided = async (userId, sessionId) => {
 		const formattedFeedbackProvided = { 
 			sessionId: feedbackProvided[0].sessionId, 
 			name: feedbackProvided[0].sessions.name, 
-			shape: feedbackProvided[0].feedbackProvided,
+			shape: feedbackProvided[0].shape,
 			tiredness: feedbackProvided[0].tiredness,
 			stress: feedbackProvided[0].stress,
 			sensation: feedbackProvided[0].sensation,
