@@ -22,9 +22,9 @@ router.get('/trainer/feedbackSessions', async (req, res, next) => {
 					error: 'The user is not a trainer',
 				});
 			} else {
-                const teamId = parseInt(req.query.teamId);
-                const startingDate = req.query.startingDate;
-                const endingDate = req.query.endingDate;
+				const teamId = parseInt(req.query.teamId);
+				const startingDate = req.query.startingDate;
+				const endingDate = req.query.endingDate;
 				const athletes = await getFeedbacksByTeamId(teamId, startingDate, endingDate);
 				const formattedFeedbacks = { success: true, athletes };
 				return res.send(formattedFeedbacks);
