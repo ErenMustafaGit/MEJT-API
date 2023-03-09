@@ -7,10 +7,10 @@ const getFeedbackSessionsFromUser = async (userId, teamId, startingDate, endingD
 		const feedbackSessions = await prisma.feedbacks_session.findMany({
 			where: {
 				userId,
-                date: {
-                    lte: endingDate != null ? endingDate : undefined,
-                    gte: startingDate != null ? startingDate : undefined,
-                },
+				date: {
+					lte: endingDate != null ? endingDate : undefined,
+					gte: startingDate != null ? startingDate : undefined,
+				},
 				sessions: {
 					is:
 					{
@@ -80,18 +80,16 @@ const createFeedbackSession = async (userId, sessionId, shape, tiredness, stress
 	try {
 		const feedbacks_session = await prisma.feedbacks_session.create({
 			data: {
-                shape,
+				shape,
 				tiredness, 
-                stress,
-                sensation,
-                injury: injury != null ? injury : undefined,
-                date: new Date(now()),
-                userId,
-                sessionId,
+				stress,
+				sensation,
+				injury: injury != null ? injury : undefined,
+				date: new Date(now()),
+				userId,
+				sessionId,
 			},
 		});
-
-		console.log('feedbacks_session :>> ', feedbacks_session);
 		return feedbacks_session;
 	} catch (err) {
 		return err;
