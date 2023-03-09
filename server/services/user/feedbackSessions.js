@@ -2,6 +2,7 @@ const { isEmpty } = require('lodash');
 
 const {
 	getFeedbackSessionsFromUser,
+    getFeedbackSessionByUserId,
 } = require('../../repositories/feedbackSession.repository');
 
 const { 
@@ -40,7 +41,31 @@ const getFeedbacksByAthleteId = async (athleteId, teamId, startingDate, endingDa
 	return formattedAthletes;
 };
 
-module.exports = {
-	getFeedbacksByAthleteId,
+const getFeedbackSessionIfProvided = async (userId, sessionId) => {
+    const feedbackProvided = await getFeedbackSessionByUserId(userId, sessionId);
+    console.log('feedbackProvided :>> ', feedbackProvided);
 
+	if(isEmpty(feedbackProvided))
+	{
+		return null;
+	}
+	else
+	{
+		const formattedFeedbackProvided = { 
+			sessionId: feedbackProvided[0].sessionId, 
+			name: feedbackProvided[0].sessions.name, 
+			shape: feedbackProvided[0].feedbackProvided,
+			tiredness: feedbackProvided[0].tiredness,
+			stress: feedbackProvided[0].stress,
+			sensation: feedbackProvided[0].sensation,
+			injury: feedbackProvided[0].injury,
+			date: feedbackProvided[0].date
+		};
+		return formattedFeedbackProvided;
+	}
+};
+
+module.exports = {
+	getFeedbacksByAthleteId, 
+    getFeedbackSessionIfProvided,
 };
