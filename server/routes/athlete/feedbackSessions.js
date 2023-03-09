@@ -54,5 +54,44 @@ router.post('/athlete/feedbackSession/create', async (req, res, next) => {
 });
 
 
+router.get('/athlete/feedbackSession/notProvided', async (req, res, next) => {
+	passport.authenticate('jwt', { session: false }, async (err, user) => {
+		if (!user) {
+			return res.json({
+				success: false,
+				error: 'The token is empty or is invalid',
+			});
+		} else {
+			const userLogged = await getUserById(user.id);
+
+			if (userLogged.type != 1) {
+				return res.json({
+					success: false,
+					error: 'You are not authorized to get feedbacks',
+				});
+			}
+			const teamsOfAthlete = await getTeamsFormattedByAthleteId(user.id);
+
+			let sessionsWithoutFeedback = [];
+
+			await Promise.all(
+				teamsOfAthlete.map(async (team) => {
+					const sessions = await getSessionsByTeamIdWithFeedbackBoolean(
+						user.id,
+						team.teamId
+					);
+					sessions.forEach((session)=> session.feedbackProvided ? null : sessionsWithoutFeedback.push(session)); 
+					return { ...team, sessions };
+				})
+			);
+
+			sessionsWithoutFeedback.map((session) => delete session.feedbackProvided);
+
+			return res.send({ success: true, sessions: sessionsWithoutFeedback });
+		}
+	})(req, res, next);
+});
+
+
 
 module.exports = router;

@@ -43,7 +43,6 @@ const getFeedbacksByAthleteId = async (athleteId, teamId, startingDate, endingDa
 
 const getFeedbackSessionIfProvided = async (userId, sessionId) => {
     const feedbackProvided = await getFeedbackSessionByUserId(userId, sessionId);
-    console.log('feedbackProvided :>> ', feedbackProvided);
 
 	if(isEmpty(feedbackProvided))
 	{
