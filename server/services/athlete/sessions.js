@@ -19,7 +19,6 @@ const getSessionsByTeamIdWithFeedbackBoolean = async (athleteId, teamId) => {
 		const sessionsFormatted = sessions.map((session) => {
 			const isFeedback = (feedback) => feedback.sessionId === session.id;
 			const sessionFormatted = { ...session, feedbackProvided: feedbacks.some(isFeedback),teamName: teamInfo.name, sessionId: session.id };
-			delete sessionFormatted.name;
 			delete sessionFormatted.id;
 			return sessionFormatted;
 		});
