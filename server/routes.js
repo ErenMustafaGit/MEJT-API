@@ -5,8 +5,7 @@ const athleteTeamsRoute = require('./routes/athlete/teams');
 const athleteSessionsRoute = require('./routes/athlete/sessions');
 const trainerTeamFeedbacksRoute = require('./routes/trainer/feedbackSessions');
 const trainerTeamInformationRoute = require('./routes/trainer/teamInformation');
-const trainerSessionsRoute = require('./routes/trainer/sessions');
-const UserAthleteFeedbacksRoute = require('./routes/user/feedbackSessions');
+const userAthleteFeedbacksRoute = require('./routes/user/feedbackSessions');
 const athleteFeedbacksRoute = require('./routes/athlete/feedbackSessions');
 
 const allRoutes = [
@@ -17,8 +16,7 @@ const allRoutes = [
 	athleteSessionsRoute,
 	trainerTeamFeedbacksRoute,
 	trainerTeamInformationRoute,
-	trainerSessionsRoute,
-	UserAthleteFeedbacksRoute,
+	userAthleteFeedbacksRoute,
 	athleteFeedbacksRoute
 ];
 
