@@ -20,7 +20,7 @@ router.get('/athlete/sessions', async (req, res, next) => {
 			const teamId = req.query.teamId;
 			let athleteId;
 
-			if (userLogged.type != 1) {
+			if (userLogged.type === 1) {
 				athleteId = parseInt(user.id);
 			} else {
 				athleteId = parseInt(req.query.athleteId);

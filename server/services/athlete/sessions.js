@@ -4,6 +4,7 @@ const {
 const {
 	getSessionsByTeamId,
 } = require('../../repositories/sessions.repository');
+const { getTeamById } = require('../../repositories/team.repository');
 
 const getSessionsByTeamIdWithFeedbackBoolean = async (athleteId, teamId) => {
 	try {
@@ -12,9 +13,12 @@ const getSessionsByTeamIdWithFeedbackBoolean = async (athleteId, teamId) => {
 			parseInt(athleteId),
 			parseInt(teamId)
 		);
+
+		const teamInfo = await getTeamById(parseInt(teamId));
+
 		const sessionsFormatted = sessions.map((session) => {
 			const isFeedback = (feedback) => feedback.sessionId === session.id;
-			const sessionFormatted = { ...session, feedbackProvided: feedbacks.some(isFeedback),teamName: session.name, sessionId: session.id };
+			const sessionFormatted = { ...session, feedbackProvided: feedbacks.some(isFeedback),teamName: teamInfo.name, sessionId: session.id };
 			delete sessionFormatted.name;
 			delete sessionFormatted.id;
 			return sessionFormatted;
