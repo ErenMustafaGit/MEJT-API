@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+
 const { getUserById } = require('../../repositories/user.repository');
 const { 
-    createAthleteFeedback,
+	createAthleteFeedback,
 } = require('../../services/athlete/feedbackSessions');
+const { getSessionsByTeamIdWithFeedbackBoolean } = require('../../services/athlete/sessions');
+const { getTeamsFormattedByAthleteId } = require('../../services/athlete/teams');
 
 require('../../middlewares/auth');
 

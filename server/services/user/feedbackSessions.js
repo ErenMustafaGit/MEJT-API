@@ -2,7 +2,7 @@ const { isEmpty } = require('lodash');
 
 const {
 	getFeedbackSessionsFromUser,
-    getFeedbackSessionByUserId,
+	getFeedbackSessionByUserId,
 } = require('../../repositories/feedbackSession.repository');
 
 const { 
@@ -42,7 +42,7 @@ const getFeedbacksByAthleteId = async (athleteId, teamId, startingDate, endingDa
 };
 
 const getFeedbackSessionIfProvided = async (userId, sessionId) => {
-    const feedbackProvided = await getFeedbackSessionByUserId(userId, sessionId);
+	const feedbackProvided = await getFeedbackSessionByUserId(userId, sessionId);
 
 	if(isEmpty(feedbackProvided))
 	{
@@ -66,5 +66,5 @@ const getFeedbackSessionIfProvided = async (userId, sessionId) => {
 
 module.exports = {
 	getFeedbacksByAthleteId, 
-    getFeedbackSessionIfProvided,
+	getFeedbackSessionIfProvided,
 };
