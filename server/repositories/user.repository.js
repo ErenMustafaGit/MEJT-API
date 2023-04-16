@@ -103,6 +103,7 @@ const createUser = async (email, name, password, type) => {
 				type: typeFormatted,
 			},
 		});
+		console.log(user);
 		return user;
 	} catch (err) {
 		return err;

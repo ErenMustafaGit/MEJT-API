@@ -26,10 +26,19 @@ router.post(
 					name: user.name,
 					type: user.type,
 				};
-				res.json({
-					success: true,
-					user: userWithoutPassword,
-				});
+				console.log(user);
+				if(user) {
+					res.json({
+						success: true,
+						user: userWithoutPassword,
+					});
+				} else {
+					res.json({
+						success: false,
+						error: 'An error occurred while creating your account. Please try again later.',
+					});
+				}
+				
 			}
 		})(req, res, next);
 	}
